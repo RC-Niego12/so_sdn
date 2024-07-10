@@ -295,12 +295,16 @@
                                                                     <div class="text" style="color: white;">TOTAL CLIENTS</div>
                                                                         <div class="number count-to" style="color: white;">
                                                                             <?php
-                                                                                $sql="SELECT * FROM tbl_save_clientbene INNER JOIN tbl_save_addl_entry ON tbl_save_clientbene.id_tbl_save_clientbene = tbl_save_addl_entry.id_tbl_save_addl_entry WHERE cancellation!='YES' ";
-                                                                                if ($result = mysqli_query($conn,$sql)){
-                                                                                    $total = mysqli_num_rows($result);
-                                                                                    echo "$total";
-                                                                                    mysqli_free_result($result);
-                                                                                }
+                                                                                $sql=mysqli_query($conn,"SELECT
+                                                                                            count(*) total_clients
+                                                                                        FROM
+                                                                                            tbl_save_clientbene
+                                                                                            INNER JOIN tbl_save_addl_entry ON tbl_save_clientbene.id_tbl_save_clientbene = tbl_save_addl_entry.id_tbl_save_addl_entry 
+                                                                                        WHERE
+                                                                                            cancellation != 'YES'");
+                                                                                            $total = mysqli_fetch_assoc($sql);
+                                                                                            $total = $total['total_clients'];
+                                                                                            echo $total;
                                                                             ?>
                                                                         </div>
                                                                     </div>
@@ -329,21 +333,21 @@
                                                                                     </thead>
                                                                                     <tbody>
                                                                                     <?php
-                                                                                        $mem = mysqli_query($conn, "SELECT * FROM tbl_save_clientbene INNER JOIN tbl_save_addl_entry ON tbl_save_clientbene.id_tbl_save_clientbene = tbl_save_addl_entry.id_tbl_save_addl_entry WHERE cancellation!='YES' ");
-                                                                                        if ($mem->num_rows > 0){
-                                                                                            while($row = mysqli_fetch_assoc($mem)){
-                                                                                                $transaction_code = $row['transaction_code'];
-                                                                                                $name = $row['cl_lname'].', '.$row['cl_fname'].' '.$row['cl_mname'].', '.$row['cl_nameext'];
-                                                                                                $date_served = $row['time_end'];
-                                                                                                ?>
-                                                                                                    <tr>
-                                                                                                        <td><?php echo $date_served; ?></td>
-                                                                                                        <td><?php echo $transaction_code; ?></td>
-                                                                                                        <td><?php echo $name; ?></td>
-                                                                                                    </tr>    
-                                                                                                <?php
-                                                                                            } 
-                                                                                        } else { }
+                                                                                        // $mem = mysqli_query($conn, "SELECT * FROM tbl_save_clientbene INNER JOIN tbl_save_addl_entry ON tbl_save_clientbene.id_tbl_save_clientbene = tbl_save_addl_entry.id_tbl_save_addl_entry WHERE cancellation!='YES' ");
+                                                                                        // if ($mem->num_rows > 0){
+                                                                                        //     while($row = mysqli_fetch_assoc($mem)){
+                                                                                        //         $transaction_code = $row['transaction_code'];
+                                                                                        //         $name = $row['cl_lname'].', '.$row['cl_fname'].' '.$row['cl_mname'].', '.$row['cl_nameext'];
+                                                                                        //         $date_served = $row['time_end'];
+                                                                                        //         ?>
+                                                                                        //             <tr>
+                                                                                        //                 <td><?php echo $date_served; ?></td>
+                                                                                        //                 <td><?php echo $transaction_code; ?></td>
+                                                                                        //                 <td><?php echo $name; ?></td>
+                                                                                        //             </tr>    
+                                                                                        //         <?php
+                                                                                        //     } 
+                                                                                        // }
                                                                                     ?>
                                                                                     </tbody>
                                                                                 </table>
@@ -369,12 +373,15 @@
                                                                     <div class="text" style="color: white;">MALE</div>
                                                                         <div class="number count-to" style="color: white;">
                                                                             <?php
-                                                                                $sql_m="SELECT * FROM tbl_save_clientbene INNER JOIN tbl_save_addl_entry ON tbl_save_clientbene.id_tbl_save_clientbene = tbl_save_addl_entry.id_tbl_save_addl_entry WHERE cl_sex='M' AND cancellation!='YES' ";
-                                                                                if ($result_m = mysqli_query($conn,$sql_m)){
-                                                                                    $total_m = mysqli_num_rows($result_m);
-                                                                                    echo "$total_m";
-                                                                                    mysqli_free_result($result_m);
-                                                                                }
+                                                                                $sql_m=mysqli_query($conn,"SELECT count(*) allmale FROM tbl_save_clientbene INNER JOIN tbl_save_addl_entry ON tbl_save_clientbene.id_tbl_save_clientbene = tbl_save_addl_entry.id_tbl_save_addl_entry WHERE cl_sex='M' AND cancellation!='YES'");
+                                                                                // if ($result_m = mysqli_query($conn,$sql_m)){
+                                                                                //     $total_m = mysqli_num_rows($result_m);
+                                                                                //     echo "$total_m";
+                                                                                //     mysqli_free_result($result_m);
+                                                                                // }
+                                                                                $total_m = mysqli_fetch_assoc($sql_m);
+                                                                                $total_m = $total_m['allmale'];
+                                                                                echo $total_m;        
                                                                             ?>
                                                                         </div>
                                                                     </div>
@@ -445,12 +452,15 @@
                                                                     <div class="text" style="color: white;">FEMALE</div>
                                                                         <div class="number count-to" style="color: white;">
                                                                             <?php
-                                                                                $sql_f="SELECT * FROM tbl_save_clientbene INNER JOIN tbl_save_addl_entry ON tbl_save_clientbene.id_tbl_save_clientbene = tbl_save_addl_entry.id_tbl_save_addl_entry WHERE cl_sex='F' AND cancellation!='YES' ";
-                                                                                if ($result_f = mysqli_query($conn,$sql_f)){
-                                                                                    $total_f = mysqli_num_rows($result_f);
-                                                                                    echo "$total_f";
-                                                                                    mysqli_free_result($result_f);
-                                                                                }
+                                                                                $sql_f=mysqli_query($conn,"SELECT count(*) allfemale FROM tbl_save_clientbene INNER JOIN tbl_save_addl_entry ON tbl_save_clientbene.id_tbl_save_clientbene = tbl_save_addl_entry.id_tbl_save_addl_entry WHERE cl_sex='F' AND cancellation!='YES'");
+                                                                                // if ($result_f = mysqli_query($conn,$sql_f)){
+                                                                                //     $total_f = mysqli_num_rows($result_f);
+                                                                                //     echo "$total_f";
+                                                                                //     mysqli_free_result($result_f);
+                                                                                // }
+                                                                                $total_f = mysqli_fetch_assoc($sql_f);
+                                                                                $total_f = $total_f['allfemale'];
+                                                                                echo $total_f; 
                                                                             ?>
                                                                         </div>
                                                                     </div>
@@ -536,12 +546,17 @@
                                                                     <div class="text" style="color: white;">TOTAL BENEFICIARIES</div>
                                                                         <div class="number count-to" style="color: white;">
                                                                             <?php
-                                                                                $sql_b="SELECT * FROM tbl_save_clientbene INNER JOIN tbl_save_addl_entry ON tbl_save_clientbene.id_tbl_save_clientbene = tbl_save_addl_entry.id_tbl_save_addl_entry WHERE cancellation!='YES' ";
-                                                                                if ($result_b = mysqli_query($conn,$sql_b)){
-                                                                                    $total_b = mysqli_num_rows($result_b);
-                                                                                    echo "$total_b";
-                                                                                    mysqli_free_result($result_b);
-                                                                                }
+                                                                                $sql_b=mysqli_query($conn,"SELECT count(*) total_served FROM tbl_save_clientbene INNER JOIN tbl_save_addl_entry ON tbl_save_clientbene.id_tbl_save_clientbene = tbl_save_addl_entry.id_tbl_save_addl_entry WHERE cancellation!='YES'");
+                                                                                
+                                                                                $total_b = mysqli_fetch_assoc($sql_b);
+                                                                                $total_b = $total_b['total_served'];
+                                                                                echo $total_b;
+                                                                                
+                                                                                // if ($result_b = mysqli_query($conn,$sql_b)){
+                                                                                //     $total_b = mysqli_num_rows($result_b);
+                                                                                //     echo "$total_b";
+                                                                                //     mysqli_free_result($result_b);
+                                                                                // }
                                                                             ?>
                                                                         </div>
                                                                     </div>
@@ -570,21 +585,19 @@
                                                                                     </thead>
                                                                                     <tbody>
                                                                                     <?php
-                                                                                        $mem_b = mysqli_query($conn, "SELECT * FROM tbl_save_clientbene INNER JOIN tbl_save_addl_entry ON tbl_save_clientbene.id_tbl_save_clientbene = tbl_save_addl_entry.id_tbl_save_addl_entry WHERE cancellation!='YES' ");
-                                                                                        if ($mem_b->num_rows > 0){
-                                                                                            while($row_b = mysqli_fetch_assoc($mem_b)){
-                                                                                                $transaction_code_b = $row_b['transaction_code'];
-                                                                                                $name_b = $row_b['bn_lname'].', '.$row_b['bn_fname'].' '.$row_b['bn_mname'].', '.$row_b['bn_nameext'];
-                                                                                                $date_served_b = $row_b['time_end'];
-                                                                                                ?>
-                                                                                                    <tr>
-                                                                                                        <td><?php echo $date_served_b; ?></td>
-                                                                                                        <td><?php echo $transaction_code_b; ?></td>
-                                                                                                        <td><?php echo $name_b; ?></td>
-                                                                                                    </tr>    
-                                                                                                <?php
-                                                                                            } 
-                                                                                        } else { }
+                                                                                        // $mem_b = mysqli_query($conn, "SELECT * FROM tbl_save_clientbene INNER JOIN tbl_save_addl_entry ON tbl_save_clientbene.id_tbl_save_clientbene = tbl_save_addl_entry.id_tbl_save_addl_entry WHERE cancellation!='YES' ");
+                                                                                        // if ($mem_b->num_rows > 0){
+                                                                                        //     while($row_b = mysqli_fetch_assoc($mem_b)){
+                                                                                        //         $transaction_code_b = $row_b['transaction_code'];
+                                                                                        //         $name_b = $row_b['bn_lname'].', '.$row_b['bn_fname'].' '.$row_b['bn_mname'].', '.$row_b['bn_nameext'];
+                                                                                        //         $date_served_b = $row_b['time_end'];
+                                                                                        //             echo '<tr>';
+                                                                                        //                 echo '<td>'.$date_served_b.'</td>';
+                                                                                        //                 echo '<td>'.$transaction_code_b.'</td>';
+                                                                                        //                 echo '<td>'.$name_b.'</td>';
+                                                                                        //             echo '</tr>';    
+                                                                                        //     } 
+                                                                                        // }
                                                                                     ?>
                                                                                     </tbody>
                                                                                 </table>
@@ -610,12 +623,15 @@
                                                                     <div class="text" style="color: white;">MALE</div>
                                                                         <div class="number count-to" style="color: white;">
                                                                             <?php
-                                                                                $sql_m_b="SELECT * FROM tbl_save_clientbene INNER JOIN tbl_save_addl_entry ON tbl_save_clientbene.id_tbl_save_clientbene = tbl_save_addl_entry.id_tbl_save_addl_entry WHERE bn_sex='M' AND cancellation!='YES' ";
-                                                                                if ($result_m_b = mysqli_query($conn,$sql_m_b)){
-                                                                                    $total_m_b = mysqli_num_rows($result_m_b);
-                                                                                    echo "$total_m_b";
-                                                                                    mysqli_free_result($result_m_b);
-                                                                                }
+                                                                                $sql_m_b=mysqli_query($conn,"SELECT count(*) total_m_b FROM tbl_save_clientbene INNER JOIN tbl_save_addl_entry ON tbl_save_clientbene.id_tbl_save_clientbene = tbl_save_addl_entry.id_tbl_save_addl_entry WHERE bn_sex='M' AND cancellation!='YES'");
+                                                                                // if ($result_m_b = mysqli_query($conn,$sql_m_b)){
+                                                                                //     $total_m_b = mysqli_num_rows($result_m_b);
+                                                                                //     echo "$total_m_b";
+                                                                                //     mysqli_free_result($result_m_b);
+                                                                                // }
+                                                                                $total_m_b = mysqli_fetch_assoc($sql_m_b);
+                                                                                $total_m_b = $total_m_b['total_m_b'];
+                                                                                echo $total_m_b;
                                                                             ?>
                                                                         </div>
                                                                     </div>
@@ -645,22 +661,20 @@
                                                                                     </thead>
                                                                                     <tbody>
                                                                                     <?php
-                                                                                        $mem_m_b = mysqli_query($conn, "SELECT * FROM tbl_save_clientbene INNER JOIN tbl_save_addl_entry ON tbl_save_clientbene.id_tbl_save_clientbene = tbl_save_addl_entry.id_tbl_save_addl_entry WHERE bn_sex='M' AND cancellation!='YES' ");
-                                                                                        if ($mem_m_b->num_rows > 0){
-                                                                                            while($row_m_b = mysqli_fetch_assoc($mem_m_b)){
-                                                                                                $transaction_code_m_b = $row_m_b['transaction_code'];
-                                                                                                $name_m_b = $row_m_b['bn_lname'].', '.$row_m_b['bn_fname'].' '.$row_m_b['bn_mname'].', '.$row_m_b['bn_nameext'];
-                                                                                                $date_served_m_b = $row_m_b['time_end']; $sex_m_b = $row_m_b['bn_sex'];
-                                                                                                ?>
-                                                                                                    <tr>
-                                                                                                        <td><?php echo $date_served_m_b; ?></td>
-                                                                                                        <td><?php echo $transaction_code_m_b; ?></td>
-                                                                                                        <td><?php echo $name_m_b; ?></td>
-                                                                                                        <td><?php echo $sex_m_b; ?></td>
-                                                                                                    </tr>    
-                                                                                                <?php
-                                                                                            } 
-                                                                                        } else { }
+                                                                                        // $mem_m_b = mysqli_query($conn, "SELECT * FROM tbl_save_clientbene INNER JOIN tbl_save_addl_entry ON tbl_save_clientbene.id_tbl_save_clientbene = tbl_save_addl_entry.id_tbl_save_addl_entry WHERE bn_sex='M' AND cancellation!='YES' ");
+                                                                                        // if ($mem_m_b->num_rows > 0){
+                                                                                        //     while($row_m_b = mysqli_fetch_assoc($mem_m_b)){
+                                                                                        //         $transaction_code_m_b = $row_m_b['transaction_code'];
+                                                                                        //         $name_m_b = $row_m_b['bn_lname'].', '.$row_m_b['bn_fname'].' '.$row_m_b['bn_mname'].', '.$row_m_b['bn_nameext'];
+                                                                                        //         $date_served_m_b = $row_m_b['time_end']; $sex_m_b = $row_m_b['bn_sex'];
+                                                                                        //             echo'<tr>';
+                                                                                        //                 echo'<td>'.$date_served_m_b.'</td>';
+                                                                                        //                 echo'<td>'.$transaction_code_m_b.'</td>';
+                                                                                        //                 echo'<td>'.$name_m_b.'</td>';
+                                                                                        //                 echo'<td>'.$sex_m_b.'</td>';
+                                                                                        //             </tr>    
+                                                                                        //     } 
+                                                                                        // }
                                                                                     ?>
                                                                                     </tbody>
                                                                                 </table>
@@ -686,12 +700,15 @@
                                                                     <div class="text" style="color: white;">FEMALE</div>
                                                                         <div class="number count-to" style="color: white;">
                                                                             <?php
-                                                                                $sql_f_b="SELECT * FROM tbl_save_clientbene INNER JOIN tbl_save_addl_entry ON tbl_save_clientbene.id_tbl_save_clientbene = tbl_save_addl_entry.id_tbl_save_addl_entry WHERE bn_sex='F' AND cancellation!='YES' ";
-                                                                                if ($result_f_b = mysqli_query($conn,$sql_f_b)){
-                                                                                    $total_f_b = mysqli_num_rows($result_f_b);
-                                                                                    echo "$total_f_b";
-                                                                                    mysqli_free_result($result_f_b);
-                                                                                }
+                                                                                $sql_f_b=mysqli_query($conn,"SELECT count(*) total_f_b FROM tbl_save_clientbene INNER JOIN tbl_save_addl_entry ON tbl_save_clientbene.id_tbl_save_clientbene = tbl_save_addl_entry.id_tbl_save_addl_entry WHERE bn_sex='F' AND cancellation!='YES'");
+                                                                                // if ($result_f_b = mysqli_query($conn,$sql_f_b)){
+                                                                                //     $total_f_b = mysqli_num_rows($result_f_b);
+                                                                                //     echo "$total_f_b";
+                                                                                //     mysqli_free_result($result_f_b);
+                                                                                // }
+                                                                                $total_f_b = mysqli_fetch_assoc($sql_f_b);
+                                                                                $total_f_b = $total_f_b['total_f_b'];
+                                                                                echo $total_f_b;
                                                                             ?>
                                                                         </div>
                                                                     </div>
